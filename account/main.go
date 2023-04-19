@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Marif226/words-learner/handler"
+	"github.com/Marif226/words-learner/account/handler"
 	"github.com/gin-gonic/gin"
 )
 

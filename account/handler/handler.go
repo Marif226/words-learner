@@ -3,23 +3,29 @@ package handler
 import (
 	"net/http"
 	"os"
+
+	"github.com/Marif226/words-learner/account/model"
 	"github.com/gin-gonic/gin"
 )
 
 // Handler struct holds required services
 type Handler struct {
+	UserService model.UserService
 }
 
 // Config will hold services that will eventually be injected into this
 // handler layer on handler initialization
 type Config struct {
 	R *gin.Engine
+	UserService model.UserService
 }
 
 // NewHandler initializes the handler with http routes and services
 func NewHandler(c *Config) {
 	// Create a handler
-	h := &Handler{}
+	h := &Handler{
+		UserService: c.UserService,
+	}
 
 	// Create an account group
 	g := c.R.Group(os.Getenv("ACCOUNT_API_URL"))
@@ -38,13 +44,6 @@ func NewHandler(c *Config) {
 	g.POST("/image", h.Image)
 	g.DELETE("/image", h.DeleteImage)
 	g.PUT("/details", h.Details)
-}
-
-// Me handler calls services for getting user's details
-func (h *Handler) Me(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H {
-		"hello" : "it's me",
-	})
 }
 
 // Signup handler
